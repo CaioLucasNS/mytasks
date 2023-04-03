@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -9,15 +9,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {TaskList} from '../../components/TaskList';
-
-interface Task {
-  id: string;
-  title: string;
-}
+import {TasksContext} from '../../context/TasksContext';
 
 export function Home() {
   const [newTask, setNewTask] = useState('');
-  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const tasks = useContext(TasksContext);
+  console.log('tasks: ', tasks);
 
   const handleAddNewTask = () => {
     const data = {
@@ -25,7 +23,6 @@ export function Home() {
       title: newTask ? newTask : 'Task empty',
     };
 
-    setTasks([...tasks, data]);
     setNewTask('');
   };
 
@@ -51,7 +48,7 @@ export function Home() {
 
         <Text style={styles.tasksTitle}>Minhas tarefas</Text>
 
-        <TaskList tasks={tasks} />
+        <TaskList />
       </View>
     </SafeAreaView>
   );
