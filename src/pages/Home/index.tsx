@@ -14,8 +14,7 @@ import {TasksContext} from '../../context/TasksContext';
 export function Home() {
   const [newTask, setNewTask] = useState('');
 
-  const tasks = useContext(TasksContext);
-  console.log('tasks: ', tasks);
+  const {addTask} = useContext(TasksContext);
 
   const handleAddNewTask = () => {
     const data = {
@@ -23,6 +22,7 @@ export function Home() {
       title: newTask ? newTask : 'Task empty',
     };
 
+    addTask(data);
     setNewTask('');
   };
 
