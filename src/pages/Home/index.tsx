@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,17 +8,50 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
+import {TaskList} from '../../components/TaskList';
+
+interface Task {
+  id: string;
+  title: string;
+}
 
 export function Home() {
+  const [newTask, setNewTask] = useState('');
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const handleAddNewTask = () => {
+    const data = {
+      id: String(new Date().getTime()),
+      title: newTask ? newTask : 'Task empty',
+    };
+
+    setTasks([...tasks, data]);
+    setNewTask('');
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.title}>Hello world!</Text>
-        <TextInput style={styles.input} />
+        <Text style={styles.title}>To Do List</Text>
 
-        <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+        <TextInput
+          style={styles.input}
+          placeholderTextColor={'#555'}
+          placeholder="Nova tarefa"
+          onChangeText={setNewTask}
+          value={newTask}
+        />
+
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={styles.button}
+          onPress={handleAddNewTask}>
           <Text style={styles.buttonText}>Adicionar</Text>
         </TouchableOpacity>
+
+        <Text style={styles.tasksTitle}>Minhas tarefas</Text>
+
+        <TaskList tasks={tasks} />
       </View>
     </SafeAreaView>
   );
@@ -59,5 +92,11 @@ const styles = StyleSheet.create({
     color: '#121214',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  tasksTitle: {
+    color: '#f1f1f1',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginVertical: 50,
   },
 });
