@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 
 interface ITasksProvider {
   children: React.ReactElement;
@@ -52,3 +52,13 @@ export const TasksProvider: React.FunctionComponent<ITasksProvider> = ({
     </TasksContext.Provider>
   );
 };
+
+export function useTaskList(): ITasksContext {
+  const context = useContext(TasksContext);
+
+  if (!context) {
+    throw new Error('useTaskList must be used in a TaskProvider');
+  }
+
+  return context;
+}
