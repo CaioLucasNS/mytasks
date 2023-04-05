@@ -40,6 +40,7 @@ export function Home() {
         />
 
         <TouchableOpacity
+          testID="addButton"
           activeOpacity={0.5}
           style={styles.button}
           onPress={handleAddNewTask}>
